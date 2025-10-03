@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Lâmpada — Ligar / Desligar</title>
+  <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+  <main class="wrap" role="main">
+    <div class="lamp-container" aria-live="polite">
+      <div class="lamp" id="lamp" role="img" aria-label="Lâmpada desligada"></div>
+      <div class="controls">
+        <button id="btn-on" class="btn" type="button" aria-pressed="false">Ligar</button>
+        <button id="btn-off" class="btn" type="button" aria-pressed="true">Desligar</button>
+      </div>
+    </div>
+    <p class="hint">Use os botões ou pressione <kbd>L</kbd> para ligar e <kbd>D</kbd> para desligar.</p>
+  </main>
+
+  <script>
+    // Pequeno JS para alternar o estado da lâmpada
+    const lamp = document.getElementById('lamp');
+    const btnOn = document.getElementById('btn-on');
+    const btnOff = document.getElementById('btn-off');
+
+    function setLamp(on) {
+      lamp.classList.toggle('on', on);
+      lamp.setAttribute('aria-label', on ? 'Lâmpada ligada' : 'Lâmpada desligada');
+      btnOn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btnOff.setAttribute('aria-pressed', on ? 'false' : 'true');
+    }
+
+    btnOn.addEventListener('click', () => setLamp(true));
+    btnOff.addEventListener('click', () => setLamp(false));
+
+    // Teclas de atalho simples
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'l') setLamp(true);
+      if (e.key.toLowerCase() === 'd') setLamp(false);
+    });
+
+    // Estado inicial (opcional: começo desligado)
+    setLamp(false);
+  </script>
+  <script src="mqttws31.js" defer></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
